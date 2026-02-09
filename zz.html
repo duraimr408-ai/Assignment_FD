@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Access Portal</title>
+<script src="https://cdn.tailwindcss.com"></script>
+
+<style>
+  /* Floating animation */
+  @keyframes float {
+    0% { transform: translateY(0); }
+    50% { transform: translateY(-8px); }
+    100% { transform: translateY(0); }
+  }
+
+  /* Glow pulse */
+  @keyframes glow {
+    0% { box-shadow: 0 0 10px rgba(255,255,255,0.3); }
+    50% { box-shadow: 0 0 25px rgba(255,255,255,0.6); }
+    100% { box-shadow: 0 0 10px rgba(255,255,255,0.3); }
+  }
+
+  .role-btn {
+    position: relative;
+    overflow: hidden;
+    opacity: 0;
+    transform: scale(0.8);
+    transition: all 0.6s ease;
+    animation: float 4s ease-in-out infinite, glow 3s infinite;
+  }
+
+  .group:hover .role-btn {
+    opacity: 1;
+    transform: scale(1);
+  }
+
+  .role-btn:hover {
+    transform: scale(1.15) rotate(1deg);
+    box-shadow: 0 25px 60px rgba(0,0,0,0.5);
+  }
+
+  /* Top menu buttons */
+  .top-btn {
+    position: relative;
+    overflow: hidden;
+    animation: float 5s ease-in-out infinite, glow 4s infinite;
+  }
+
+  /* Ripple effect */
+  .ripple {
+    position: absolute;
+    border-radius: 50%;
+    transform: scale(0);
+    animation: ripple 0.6s linear;
+    background: rgba(255,255,255,0.7);
+  }
+
+  @keyframes ripple {
+    to {
+      transform: scale(4);
+      opacity: 0;
+    }
+  }
+</style>
+</head>
+
+<body class="min-h-screen">
+
+<!-- HERO -->
+<div class="group relative w-full h-screen bg-cover bg-center"
+style="background-image:url('https://images.unsplash.com/photo-1523050854058-8df90110c9f1');">
+
+  <!-- Overlay -->
+  <div class="absolute inset-0 bg-black/60"></div>
+
+  <!-- TOP RIGHT MENU -->
+  <div class="absolute top-6 right-6 z-20 flex gap-4">
+
+    <button onclick="goPage(event,'about.html')"
+      class="top-btn px-5 py-2 rounded-full text-sm font-semibold text-white
+      bg-white/20 backdrop-blur hover:bg-white/30">
+      About
+    </button>
+
+    <button onclick="goPage(event,'help.html')"
+      class="top-btn px-5 py-2 rounded-full text-sm font-semibold text-white
+      bg-white/20 backdrop-blur hover:bg-white/30">
+      Help
+    </button>
+
+    <button onclick="goPage(event,'contact.html')"
+      class="top-btn px-5 py-2 rounded-full text-sm font-semibold text-white
+      bg-white/20 backdrop-blur hover:bg-white/30">
+      Contact
+    </button>
+
+  </div>
+
+  <!-- CENTER CONTENT -->
+  <div class="relative h-full flex flex-col items-center justify-center text-center text-white">
+
+    <h1 class="text-4xl md:text-6xl font-extrabold mb-6">
+      Education Portal
+    </h1>
+
+    <p class="text-xl md:text-2xl mb-14 font-light">
+      Move your mouse to choose role
+    </p>
+
+    <div class="flex flex-col md:flex-row gap-10 justify-center">
+
+      <button onclick="goPage(event,'admin.html')"
+        class="role-btn text-2xl md:text-3xl px-16 py-7 rounded-full font-bold
+        bg-gradient-to-r from-sky-400 to-blue-500 text-white">
+        Admin
+      </button>
+
+      <button onclick="goPage(event,'staff.html')"
+        class="role-btn text-2xl md:text-3xl px-16 py-7 rounded-full font-bold
+        bg-gradient-to-r from-emerald-300 to-green-500 text-black">
+        Staff
+      </button>
+
+      <button onclick="goPage(event,'student.html')"
+        class="role-btn text-2xl md:text-3xl px-16 py-7 rounded-full font-bold
+        bg-gradient-to-r from-yellow-300 to-orange-400 text-black">
+        Student
+      </button>
+
+    </div>
+  </div>
+</div>
+
+<script>
+function goPage(e, url) {
+  const button = e.currentTarget;
+
+  const circle = document.createElement("span");
+  const diameter = Math.max(button.clientWidth, button.clientHeight);
+  const radius = diameter / 2;
+
+  circle.style.width = circle.style.height = `${diameter}px`;
+  circle.style.left = `${e.clientX - button.getBoundingClientRect().left - radius}px`;
+  circle.style.top = `${e.clientY - button.getBoundingClientRect().top - radius}px`;
+  circle.classList.add("ripple");
+
+  const ripple = button.getElementsByClassName("ripple")[0];
+  if (ripple) ripple.remove();
+
+  button.appendChild(circle);
+
+  setTimeout(() => {
+    window.location.href = url;
+  }, 600);
+}
+</script>
+
+</body>
+</html>
